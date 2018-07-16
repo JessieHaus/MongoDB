@@ -5,40 +5,20 @@ var mongoose = require("mongoose");
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
 var Save = require("./models/Save.js");
-var logger = require("morgan");
 var cheerio = require("cheerio");
 var path = require("path");
 var app = express();
 var PORT = process.env.PORT || 4000;
 
-// Parse application/x-www-form-urlencoded
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(express.static("./public"));
 
 // connect to database
 mongoose.Promise = Promise;
-var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/foxsScrape";
+var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 if(process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI)
 } else {
     mongoose.connect(dbConnect);
 }
-// mongodb://foxsScrape:password12@ds119585.mlab.com:19585/heroku_hd8909ql;
-// Connect mongoose to our database
-/* mongoose.connect(dbConnect, function (error) {
-    // Log any errors connecting with mongoose
-    if (error) {
-        console.log(error);
-    }
-    // Or log a success message
-    else {
-        console.log("Mongoose connection is successful");
-    }
-}); */
 var db = mongoose.connection;
 db.on('error',function(err){
     console.log('Mongoose Error',err);
